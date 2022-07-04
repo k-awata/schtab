@@ -34,6 +34,7 @@ var removeCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		cobra.CheckErr(os.Remove(schtabFile))
+		unregCmd.Run(cmd, nil)
 	},
 }
 
