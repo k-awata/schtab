@@ -74,4 +74,8 @@ func init() {
 	if e != "" {
 		editor = e
 	}
+	e = os.Getenv("VISUAL")
+	if e != "" {
+		editor = e
+	}
 }
