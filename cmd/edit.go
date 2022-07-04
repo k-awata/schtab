@@ -51,7 +51,11 @@ var editCmd = &cobra.Command{
 		}
 		e := strings.Fields(editor)
 		e = append(e, schtabFile)
-		cobra.CheckErr(exec.Command(e[0], e[1:]...).Run())
+		ex := exec.Command(e[0], e[1:]...)
+		ex.Stdin = os.Stdin
+		ex.Stdout = os.Stdout
+		ex.Stderr = os.Stderr
+		cobra.CheckErr(ex.Run())
 		regCmd.Run(cmd, nil)
 	},
 }
