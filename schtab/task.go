@@ -140,6 +140,7 @@ func itodow(i int) string {
 		4: "THU",
 		5: "FRI",
 		6: "SAT",
+		7: "SUN",
 	}[i]
 }
 
@@ -327,7 +328,7 @@ func (t *Task) SetCron(s string) error {
 	if err != nil {
 		return fmt.Errorf("day of week has %s", err)
 	}
-	if err := checkRange(dow, 0, 6); err != nil {
+	if err := checkRange(dow, 0, 7); err != nil {
 		return errors.New("day of week is out of range")
 	}
 	if dows < 0 || dows > 52 {

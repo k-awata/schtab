@@ -22,12 +22,16 @@ THE SOFTWARE.
 package cmd
 
 import (
+	_ "embed"
 	"os"
 	"os/exec"
 	"strings"
 
 	"github.com/spf13/cobra"
 )
+
+//go:embed schtab
+var initSchtab string
 
 var editor string
 
@@ -42,7 +46,7 @@ var editCmd = &cobra.Command{
 			f, err := os.Create(schtabFile)
 			cobra.CheckErr(err)
 			defer f.Close()
-			_, err = f.WriteString("# m h  dom mon dow   command")
+			_, err = f.WriteString(initSchtab)
 			cobra.CheckErr(err)
 		}
 		e := strings.Fields(editor)
