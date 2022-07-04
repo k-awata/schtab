@@ -302,7 +302,7 @@ func (t *Task) SetCron(s string) error {
 		return fmt.Errorf("day of month has %s", err)
 	}
 	if len(dom) > 1 {
-		return errors.New("day must be single")
+		return errors.New("day of month must be single")
 	}
 	if err := checkRange(dom, 1, 31); err != nil {
 		return errors.New("day of month is out of range")
@@ -317,10 +317,10 @@ func (t *Task) SetCron(s string) error {
 		return fmt.Errorf("month has %s", err)
 	}
 	if err := checkRange(mon, 1, 12); err != nil {
-		return errors.New("day of month is out of range")
+		return errors.New("month is out of range")
 	}
 	if mons < 0 || mons > 12 {
-		return errors.New("day of month interval is out of range")
+		return errors.New("month interval is out of range")
 	}
 
 	// Parse day of week
