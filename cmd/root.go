@@ -22,6 +22,7 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"bufio"
 	"io"
 	"os"
 
@@ -39,6 +40,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
+		// Read input
 		var src *os.File
 		if args[0] == "-" {
 			src = os.Stdin
@@ -48,11 +50,21 @@ var rootCmd = &cobra.Command{
 			cobra.CheckErr(err)
 			defer src.Close()
 		}
+		r := bufio.NewReader(src)
+		s, err := io.ReadAll(r)
+		cobra.CheckErr(err)
+		if len(s) == 0 {
+			return
+		}
+
+		// Write to schtab
 		dst, err := os.Create(schtabFile)
 		cobra.CheckErr(err)
 		defer dst.Close()
-		_, err = io.Copy(dst, src)
+		_, err = dst.Write(s)
 		cobra.CheckErr(err)
+
+		// Register
 		regCmd.Run(cmd, nil)
 	},
 }
