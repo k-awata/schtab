@@ -22,8 +22,8 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"bufio"
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -39,10 +39,9 @@ var listCmd = &cobra.Command{
 		f, err := os.Open(schtabFile)
 		cobra.CheckErr(err)
 		defer f.Close()
-		sc := bufio.NewScanner(f)
-		for sc.Scan() {
-			fmt.Println(sc.Text())
-		}
+		b, err := io.ReadAll(f)
+		cobra.CheckErr(err)
+		fmt.Println(string(b))
 	},
 }
 

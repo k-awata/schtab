@@ -22,7 +22,6 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"bufio"
 	"io"
 	"os"
 
@@ -35,7 +34,7 @@ var schtabFile string
 var rootCmd = &cobra.Command{
 	Use:     `schtab {file | -}`,
 	Short:   "schtab sets tasks to Windows Task Scheduler from a text in crontab format",
-	Version: "0.1.0",
+	Version: "0.1.1",
 	Args:    cobra.ExactArgs(1),
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -50,8 +49,7 @@ var rootCmd = &cobra.Command{
 			cobra.CheckErr(err)
 			defer src.Close()
 		}
-		r := bufio.NewReader(src)
-		s, err := io.ReadAll(r)
+		s, err := io.ReadAll(src)
 		cobra.CheckErr(err)
 		if len(s) == 0 {
 			return
