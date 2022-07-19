@@ -265,8 +265,9 @@ func (t *Task) Unregister() error {
 	if t.tn == "" {
 		return errors.New("task name is unset yet")
 	}
-	if err := exec.Command(SCHTASKS_EXE, FLG_DELETE, FLG_FORCE, FLG_TASKNAME, t.tn).Run(); err != nil {
-		return err
+	args := []string{FLG_DELETE, FLG_FORCE, FLG_TASKNAME, t.tn}
+	if out, err := exec.Command(SCHTASKS_EXE, args...).CombinedOutput(); err != nil {
+		return fmt.Errorf("schtasks runtime error\n  args: %s\n  output: %s", args, string(out))
 	}
 	return nil
 }
