@@ -152,13 +152,27 @@ func getTnPrefix() string {
 func RegisterAll(r io.Reader) error {
 	sc := bufio.NewScanner(r)
 	no := 1
+	repl := ""
 	for i := 1; sc.Scan(); i++ {
 		ts := strings.TrimSpace(sc.Text())
-		// Skip blank or comment row
-		if ts == "" || strings.HasPrefix(ts, "#") {
+		// Skip blank row
+		if ts == "" {
 			continue
 		}
-		t := NewTask(getTnPrefix() + fmt.Sprintf(TN_BASE, no))
+		// Replace task name
+		if strings.HasPrefix(ts, "#") {
+			uncom := strings.TrimSpace(strings.TrimPrefix(ts, "#"))
+			if strings.HasPrefix(uncom, "tn:") {
+				repl = strings.TrimSpace(strings.TrimPrefix(uncom, "tn:"))
+			}
+			continue
+		}
+		tn := fmt.Sprintf(TN_BASE, no)
+		if repl != "" {
+			tn = repl
+			repl = ""
+		}
+		t := NewTask(getTnPrefix() + tn)
 		no++
 		if err := t.SetCron(ts); err != nil {
 			fmt.Fprintf(os.Stderr, "Line %d: %s\n", i, err)
