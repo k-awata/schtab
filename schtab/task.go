@@ -145,7 +145,7 @@ func itodow(i int) string {
 }
 
 func getTnPrefix() string {
-	return `\` + TN_ROOT + `\` + os.Getenv("USERNAME") + `\`
+	return strings.ToLower(`\` + TN_ROOT + `\` + os.Getenv("USERNAME") + `\`)
 }
 
 // RegisterAll registers all tasks in crontab format text at Task Scheduler
@@ -212,7 +212,7 @@ type Task struct {
 // NewTask returns a new task
 func NewTask(name string) *Task {
 	return &Task{
-		tn: strings.ToLower(name),
+		tn: name,
 	}
 }
 

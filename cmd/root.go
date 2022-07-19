@@ -34,7 +34,7 @@ var schtabFile string
 var rootCmd = &cobra.Command{
 	Use:     `schtab {file | -}`,
 	Short:   "schtab sets tasks to Windows Task Scheduler from a text in crontab format",
-	Version: "0.1.2",
+	Version: "0.1.3",
 	Args:    cobra.ExactArgs(1),
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
