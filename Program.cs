@@ -194,11 +194,15 @@ class Task
 
     public static void UnregisterAll()
     {
-        var tf = TaskService.Instance.RootFolder.SubFolders[rootPath].SubFolders[userPath];
-        foreach (var t in tf.AllTasks)
+        try
         {
-            tf.DeleteTask(t.Name);
+            var tf = TaskService.Instance.RootFolder.SubFolders[rootPath].SubFolders[userPath];
+            foreach (var t in tf.AllTasks)
+            {
+                tf.DeleteTask(t.Name);
+            }
         }
+        catch { }
     }
 
     private readonly string path;
